@@ -1,0 +1,9 @@
+node_modules/
+public/
+.game-previews/
+.env
+.env.*
+*.log
+*.tsbuildinfo
+.DS_Store
+coverage/

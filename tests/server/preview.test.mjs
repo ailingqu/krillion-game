@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { once } from 'node:events';
+import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import { createPreviewServer } from '../../scripts/serve.mjs';
+
+test('static preview preserves shared query strings and only serves public files', async t => {
+  const workspace = await mkdtemp(path.join(os.tmpdir(), 'standalone-game-server-'));
+  t.after(() => rm(workspace, { recursive: true, force: true }));
+  const root = path.join(workspace, 'public');
+  await mkdir(path.join(root, 'games/example'), { recursive: true });
+  await writeFile(path.join(root, 'games/example/index.html'), '<h1>Example</h1>');
+  await writeFile(path.join(workspace, 'private.txt'), 'must not be served');
+  await writeFile(path.join(root, '.hidden'), 'must not be served');
+  const server = createPreviewServer(root);
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  server.listen(0, '127.0.0.1'); await once(server, 'listening');
+  const base = 'http://127.0.0.1:' + server.address().port;
+  const redirect = await fetch(base + '/games/example?seed=example&lang=zh', { redirect: 'manual' });
+  assert.equal(redirect.status, 308);
+  assert.equal(redirect.headers.get('location'), '/games/example/?seed=example&lang=zh');
+  const page = await fetch(base + redirect.headers.get('location'));
+  assert.equal(await page.text(), '<h1>Example</h1>');
+  assert.match(page.headers.get('content-type'), /text\/html/);
+  const head = await fetch(base + '/games/example/', { method: 'HEAD' });
+  assert.equal(head.status, 200); assert.equal(await head.text(), '');
+  for (const url of ['/private.txt', '/%2e%2e%2fprivate.txt', '/.hidden']) assert.equal((await fetch(base + url)).status, 404);
+  assert.equal((await fetch(base + '/%zz')).status, 400);
+  assert.equal((await fetch(base + '/games/example/', { method: 'POST' })).status, 405);
+});

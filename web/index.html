@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Krillion timed trivia game from Cubes 2048.">
+  <title>Krillion — Cubes 2048</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #101b33; color: #f8fafc; }
+    * { box-sizing: border-box; }
+    body { max-width: 1000px; margin: auto; padding: 40px 20px; }
+    a { color: #facc15; text-underline-offset: .2em; }
+    header { margin-bottom: 32px; }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 12px; }
+    p { color: #cbd5e1; line-height: 1.65; }
+    main { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px; }
+    article { min-width: 0; overflow: hidden; border: 1px solid #334155; border-radius: 18px; background: #1e293b; }
+    img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+    .body { padding: 24px; }
+    h2 { margin: 0; }
+    .links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+    footer { margin-top: 36px; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="https://cubes-2048.io">Cubes 2048 ↗</a>
+    <h1>Krillion — Cubes 2048</h1>
+    <p>Play Krillion in English or Simplified Chinese.</p>
+  </header>
+  <main>
+    <article>
+      <img src="./games/krillion/cover.png" width="840" height="560" alt="Krillion's pixel ocean and pink krill">
+      <div class="body">
+        <h2>Krillion</h2>
+        <p>Find uncommon answers in seven timed rounds. Try the daily dive or practice in Unlimited.</p>
+        <nav class="links" aria-label="Play Krillion">
+          <a href="./games/krillion/">Play in English</a>
+          <a href="./games/krillion/?lang=zh" lang="zh">中文版</a>
+        </nav>
+      </div>
+    </article>
+  </main>
+  <footer>
+    <p>Discover more games at <a href="https://cubes-2048.io">cubes-2048.io</a> ·
+      <a href="https://github.com/ailingqu/krillion-game">Source on GitHub</a></p>
+  </footer>
+</body>
+</html>

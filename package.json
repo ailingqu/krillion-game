@@ -1,0 +1,43 @@
+{
+  "name": "krillion-game",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Krillion timed trivia game from Cubes 2048",
+  "license": "MIT",
+  "homepage": "https://cubes-2048.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ailingqu/krillion-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ailingqu/krillion-game/issues"
+  },
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "pnpm build && node scripts/serve.mjs",
+    "preview": "node scripts/serve.mjs",
+    "test": "pnpm build && node --import tsx --test tests/krillion/*.test.ts tests/server/*.test.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.10",
+    "@types/react": "18.3.18",
+    "@types/react-dom": "18.3.5",
+    "esbuild": "0.25.4",
+    "tsx": "4.23.13",
+    "typescript": "5.7.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
